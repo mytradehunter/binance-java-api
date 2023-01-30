@@ -46,7 +46,7 @@ public class AggTradesCacheExample {
     BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance();
     BinanceApiWebSocketClient client = factory.newWebSocketClient();
 
-    client.onAggTradeEvent(symbol.toLowerCase(), response -> {
+    client.onAggTradeEvent(symbol.toLowerCase(), false, response -> {
       Long aggregatedTradeId = response.getAggregatedTradeId();
       AggTrade updateAggTrade = aggTradesCache.get(aggregatedTradeId);
       if (updateAggTrade == null) {
