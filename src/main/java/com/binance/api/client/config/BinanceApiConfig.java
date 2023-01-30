@@ -9,6 +9,8 @@ public class BinanceApiConfig {
 	 * Base domain for URLs.
 	 */
 	private static String BASE_DOMAIN = "binance.com";
+	public static final String WS_FUTURES_API_BASE_URL = "wss://fstream.binance.com/ws";
+
 
     /**
      * Spot Test Network URL.
@@ -57,6 +59,14 @@ public class BinanceApiConfig {
 	 */
 	public static String getStreamApiBaseUrl() {
 		return String.format("wss://stream.%s:9443/ws", getBaseDomain());
+	}
+	
+	
+	/**
+   	* Streaming API Futures base URL.
+   	*/
+	public static String getFuturesStreamApiBaseUrl() {	
+		return WS_FUTURES_API_BASE_URL;
 	}
 
 	/**
