@@ -44,17 +44,13 @@ public class BinanceApiWebSocketClientImpl implements BinanceApiWebSocketClient,
         return createNewWebSocket(channel, new BinanceApiWebSocketListener<>(callback, CandlestickEvent.class));
     }
 
-    public Closeable onAggTradeEvent(String symbols, boolean isFutures, BinanceApiCallback<AggTradeEvent> callback) {
+    public Closeable onAggTradeEvent(String symbols, BinanceApiCallback<AggTradeEvent> callback) {
         final String channel = Arrays.stream(symbols.split(","))
                 .map(String::trim)
                 .map(s -> String.format("%s@aggTrade", s))
                 .collect(Collectors.joining("/"));
-        
-        if (isFutures) {
-           return createNewFuturesWebSocket(channel, new BinanceApiWebSocketListener<>(callback, AggTradeEvent.class));
-        } else {
-           return createNewWebSocket(channel, new BinanceApiWebSocketListener<>(callback, AggTradeEvent.class));
-        }
+    
+        return createNewWebSocket(channel, new BinanceApiWebSocketListener<>(callback, AggTradeEvent.class));
     }
 
     public Closeable onUserDataUpdateEvent(String listenKey, BinanceApiCallback<UserDataUpdateEvent> callback) {
