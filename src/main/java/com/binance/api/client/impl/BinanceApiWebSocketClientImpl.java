@@ -103,4 +103,17 @@ public class BinanceApiWebSocketClientImpl implements BinanceApiWebSocketClient,
             listener.onClosed(webSocket, code, null);
         };
     }
+    
+    private Closeable createNewFuturesWebSocket(String channel, BinanceApiWebSocketListener<?> listener) {
+        String streamingUrl = String.format("%s/%s", BinanceApiConfig.useTestnetStreaming?BinanceApiConfig.getStreamTestNetBaseUrl():BinanceApiConfig.getFuturesStreamApiBaseUrl(), channel);
+        Request request = new Request.Builder().url(streamingUrl).build();
+        final WebSocket webSocket = client.newWebSocket(request, listener);
+        return () -> {
+            final int code = 1000;
+            listener.onClosing(webSocket, code, null);
+            webSocket.close(code, null);
+            listener.onClosed(webSocket, code, null);
+        };
+    }
+    
 }
